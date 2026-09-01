@@ -1,0 +1,7 @@
+{
+  "name": "fya-credit-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
