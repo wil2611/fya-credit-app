@@ -47,14 +47,23 @@ fya-credit-api
 
 El backend se encuentra desarrollado con .NET 8 y PostgreSQL.
 
-## Funcionalidades
-
-La aplicación permitirá:
+## Funcionalidades implementadas
 
 - Registrar créditos.
 - Consultar créditos registrados.
-- Buscar créditos por cliente, documento o comercial.
-- Ordenar créditos por fecha o valor.
+- Validar los datos del formulario antes de enviarlos.
+- Mostrar estados de carga y errores.
+- Conectarse con la API de créditos.
+
+## Flujo de registro
+
+Al registrar un crédito desde la aplicación:
+
+1. El frontend valida los campos.
+2. Se envía la información al backend mediante `POST /api/credits`.
+3. El backend almacena el crédito en PostgreSQL.
+4. Se genera una notificación por correo en segundo plano.
+5. La aplicación vuelve al listado de créditos.
 
 ## Android
 

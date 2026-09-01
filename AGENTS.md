@@ -93,12 +93,13 @@ Currently implemented:
 
 - Ionic React project initialization.
 - Capacitor configuration.
+- Credit listing interface.
+- Credit registration form.
+- Credit API integration.
+- Frontend form validation.
 
 Still to be implemented:
 
-- Credit listing interface.
-- Credit registration form.
 - Credit filters.
 - Credit sorting.
-- API integration.
 - Android build.
