@@ -10,6 +10,8 @@ import {
   IonTitle,
   IonToolbar,
   IonInput,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +28,8 @@ const Home: React.FC = () => {
   const [clientName, setClientName] = useState("");
   const [clientDocument, setClientDocument] = useState("");
   const [salesperson, setSalesperson] = useState("");
+  const [sortBy, setSortBy] = useState<"amount" | "createdAt">("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const loadCredits = async (filters: CreditFilters = {}) => {
     try {
@@ -51,6 +55,8 @@ const Home: React.FC = () => {
       clientName,
       clientDocument,
       salesperson,
+      sortBy,
+      sortOrder,
     });
   };
 
@@ -58,6 +64,8 @@ const Home: React.FC = () => {
     setClientName("");
     setClientDocument("");
     setSalesperson("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
 
     loadCredits();
   };
@@ -111,6 +119,44 @@ const Home: React.FC = () => {
           />
         </IonItem>
 
+        <IonItem>
+          <IonSelect
+            label="Ordenar por"
+            labelPlacement="stacked"
+            value={sortBy}
+            onIonChange={(event) =>
+              setSortBy(event.detail.value)
+            }
+          >
+            <IonSelectOption value="createdAt">
+              Fecha
+            </IonSelectOption>
+
+            <IonSelectOption value="amount">
+              Valor del crédito
+            </IonSelectOption>
+          </IonSelect>
+        </IonItem>
+
+        <IonItem>
+          <IonSelect
+            label="Orden"
+            labelPlacement="stacked"
+            value={sortOrder}
+            onIonChange={(event) =>
+              setSortOrder(event.detail.value)
+            }
+          >
+            <IonSelectOption value="desc">
+              Descendente
+            </IonSelectOption>
+
+            <IonSelectOption value="asc">
+              Ascendente
+            </IonSelectOption>
+          </IonSelect>
+        </IonItem>
+
         <IonButton
           expand="block"
           onClick={handleSearch}
@@ -126,7 +172,7 @@ const Home: React.FC = () => {
         >
           Limpiar filtros
         </IonButton>
-        
+
         {loading && <IonSpinner />}
 
         {error && <p>{error}</p>}
