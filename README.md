@@ -51,9 +51,31 @@ El backend se encuentra desarrollado con .NET 8 y PostgreSQL.
 
 - Registrar créditos.
 - Consultar créditos registrados.
+- Buscar créditos por nombre del cliente.
+- Buscar créditos por cédula o ID.
+- Buscar créditos por comercial.
+- Ordenar créditos por fecha de registro.
+- Ordenar créditos por valor del crédito.
 - Validar los datos del formulario antes de enviarlos.
 - Mostrar estados de carga y errores.
-- Conectarse con la API de créditos.
+- Consumir la API REST del backend.
+
+## Consulta de créditos
+
+La pantalla principal permite filtrar los créditos por:
+
+- Nombre del cliente.
+- Cédula o ID.
+- Comercial.
+
+También permite ordenar los resultados por:
+
+- Fecha de registro.
+- Valor del crédito.
+
+El orden puede ser ascendente o descendente.
+
+Los filtros y el ordenamiento son enviados al backend mediante parámetros de consulta.
 
 ## Flujo de registro
 
