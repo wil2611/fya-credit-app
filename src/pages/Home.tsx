@@ -9,33 +9,58 @@ import {
   IonSpinner,
   IonTitle,
   IonToolbar,
+  IonInput,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Credit } from "../models/Credit";
 import { getCredits } from "../services/creditService";
+import type { CreditFilters } from "../services/creditService";
 
 const Home: React.FC = () => {
   const [credits, setCredits] = useState<Credit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [clientName, setClientName] = useState("");
+  const [clientDocument, setClientDocument] = useState("");
+  const [salesperson, setSalesperson] = useState("");
+
+  const loadCredits = async (filters: CreditFilters = {}) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await getCredits(filters);
+
+      setCredits(data);
+    } catch {
+      setError("No fue posible cargar los créditos.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadCredits = async () => {
-      try {
-        const data = await getCredits();
-        setCredits(data);
-      } catch {
-        setError("No fue posible cargar los créditos.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadCredits();
   }, []);
+
+  const handleSearch = () => {
+    loadCredits({
+      clientName,
+      clientDocument,
+      salesperson,
+    });
+  };
+
+  const handleClearFilters = () => {
+    setClientName("");
+    setClientDocument("");
+    setSalesperson("");
+
+    loadCredits();
+  };
 
   return (
     <IonPage>
@@ -52,6 +77,54 @@ const Home: React.FC = () => {
           className="ion-margin-bottom"
         >
           Registrar crédito
+        </IonButton>
+        <IonItem>
+          <IonInput
+            label="Nombre del cliente"
+            labelPlacement="stacked"
+            value={clientName}
+            onIonInput={(event) =>
+              setClientName(event.detail.value ?? "")
+            }
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonInput
+            label="Cédula o ID"
+            labelPlacement="stacked"
+            value={clientDocument}
+            onIonInput={(event) =>
+              setClientDocument(event.detail.value ?? "")
+            }
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonInput
+            label="Comercial"
+            labelPlacement="stacked"
+            value={salesperson}
+            onIonInput={(event) =>
+              setSalesperson(event.detail.value ?? "")
+            }
+          />
+        </IonItem>
+
+        <IonButton
+          expand="block"
+          onClick={handleSearch}
+          className="ion-margin-top"
+        >
+          Buscar
+        </IonButton>
+
+        <IonButton
+          expand="block"
+          fill="outline"
+          onClick={handleClearFilters}
+        >
+          Limpiar filtros
         </IonButton>
         
         {loading && <IonSpinner />}
