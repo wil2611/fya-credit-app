@@ -35,23 +35,21 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    min-height: 40px;
+    min-height: 36px;
 
-    padding: 0 12px;
+    padding: 0;
     margin: 0;
 
-    border: 1px solid var(--fya-border);
-    border-radius: 8px;
-    background: var(--fya-surface);
-    color: var(--fya-text);
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--fya-text-secondary);
 
     font: inherit;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition:
-        border-color 150ms ease,
-        background-color 150ms ease;
+    transition: color 150ms ease;
 }
 
 .back-button ion-icon {
@@ -60,8 +58,7 @@
 }
 
 .back-button:hover {
-    border-color: #b9d8cc;
-    background: #eff9f5;
+    background: transparent;
     color: var(--fya-dark);
 }
 
@@ -208,37 +205,47 @@
 
 @media (max-width: 600px) {
     .create-credit-container {
-        padding: 18px 16px 32px;
+        padding: 16px 16px 28px;
     }
 
     .create-credit-header {
         align-items: stretch;
         flex-direction: column;
-        gap: 18px;
-        margin-bottom: 28px;
-        padding: 2px 0 22px;
+        gap: 14px;
+        margin-bottom: 24px;
+        padding: 0 0 20px;
     }
 
     .create-credit-logo {
-        width: 92px;
+        width: 80px;
     }
 
     .create-credit-heading {
-        margin-left: 14px;
-        padding-left: 14px;
+        margin-left: 12px;
+        padding-left: 12px;
     }
 
     .back-button {
-        justify-content: center;
-        width: 100%;
+        align-self: flex-start;
+        justify-content: flex-start;
+        width: auto;
     }
 
     .create-credit-heading h1 {
-        font-size: 30px;
+        font-size: 26px;
+    }
+
+    .create-credit-heading p {
+        font-size: 14px;
     }
 
     .credit-form {
-        padding: 16px;
+        padding: 14px;
+    }
+
+    .form-section + .form-section {
+        margin-top: 24px;
+        padding-top: 22px;
     }
 
     .form-section-title h2 {
@@ -247,7 +254,7 @@
 
     .form-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
     }
 
     .amount-input {
@@ -256,22 +263,16 @@
 
     .form-actions {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: auto minmax(0, 1fr);
         gap: 10px;
+        margin-top: 24px;
     }
 
-    .submit-button,
-    .cancel-button {
+    .submit-button {
         width: 100%;
     }
-}
-
-@media (max-width: 360px) {
-    .form-actions {
-        grid-template-columns: 1fr;
-    }
 
     .cancel-button {
-        order: 2;
+        width: auto;
     }
 }
