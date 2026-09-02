@@ -273,55 +273,100 @@ const Home: React.FC = () => {
             )}
 
             {!loading && !error && credits.length > 0 && (
-              <div className="credits-list">
-                {credits.map((credit) => (
-                  <IonCard
-                    key={credit.id}
-                    className="credit-card"
-                  >
-                    <IonCardContent>
-                      <div className="credit-top">
-                        <div className="credit-main-info">
-                          <h3>{credit.clientName}</h3>
-                          <p className="credit-document">
-                            Documento: {credit.clientDocument}
-                          </p>
-                        </div>
+              <>
+                <div className="credits-table-container">
+                  <table className="credits-table">
+                    <thead>
+                      <tr>
+                        <th>Cliente</th>
+                        <th>Documento</th>
+                        <th>Valor</th>
+                        <th>Plazo</th>
+                        <th>Tasa</th>
+                        <th>Comercial</th>
+                        <th>Fecha</th>
+                      </tr>
+                    </thead>
 
-                        <div className="credit-amount-group">
-                          <span>Valor del crédito</span>
-                          <strong className="credit-amount">
+                    <tbody>
+                      {credits.map((credit) => (
+                        <tr key={credit.id}>
+                          <td className="table-client">
+                            {credit.clientName}
+                          </td>
+
+                          <td>{credit.clientDocument}</td>
+
+                          <td className="table-amount">
                             {formatCurrency(credit.amount)}
-                          </strong>
-                        </div>
-                      </div>
+                          </td>
 
-                      <div className="credit-middle">
-                        <div className="credit-detail">
-                          <span>Plazo</span>
-                          <strong>{credit.termMonths} meses</strong>
-                        </div>
-                        <div className="credit-detail">
-                          <span>Tasa de interés</span>
-                          <strong>{credit.interestRate}%</strong>
-                        </div>
-                      </div>
+                          <td>{credit.termMonths} meses</td>
 
-                      <div className="credit-footer">
-                        <div>
-                          <IonIcon icon={briefcaseOutline} />
-                          <span>{credit.salesperson}</span>
+                          <td>{credit.interestRate}%</td>
+
+                          <td>{credit.salesperson}</td>
+
+                          <td>{formatDate(credit.createdAt)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="credits-list">
+                  {credits.map((credit) => (
+                    <IonCard
+                      key={credit.id}
+                      className="credit-card"
+                    >
+                      <IonCardContent>
+                        <div className="credit-top">
+                          <div className="credit-main-info">
+                            <h3>{credit.clientName}</h3>
+
+                            <p className="credit-document">
+                              Documento: {credit.clientDocument}
+                            </p>
+                          </div>
+
+                          <div className="credit-amount-group">
+                            <span>Valor del crédito</span>
+
+                            <strong className="credit-amount">
+                              {formatCurrency(credit.amount)}
+                            </strong>
+                          </div>
                         </div>
 
-                        <div>
-                          <IonIcon icon={calendarOutline} />
-                          <span>{formatDate(credit.createdAt)}</span>
+                        <div className="credit-middle">
+                          <div className="credit-detail">
+                            <span>Plazo</span>
+                            <strong>{credit.termMonths} meses</strong>
+                          </div>
+
+                          <div className="credit-detail">
+                            <span>Tasa de interés</span>
+                            <strong>{credit.interestRate}%</strong>
+                          </div>
                         </div>
-                      </div>
-                    </IonCardContent>
-                  </IonCard>
-                ))}
-              </div>
+
+                        <div className="credit-footer">
+                          <div>
+                            <IonIcon icon={briefcaseOutline} />
+                            <span>{credit.salesperson}</span>
+                          </div>
+
+                          <div>
+                            <IonIcon icon={calendarOutline} />
+                            <span>{formatDate(credit.createdAt)}</span>
+                          </div>
+                        </div>
+                      </IonCardContent>
+                    </IonCard>
+                  ))}
+                </div>
+              </>
             )}
           </section>
         </div>
