@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">fya-credit-app</string>
-    <string name="title_activity_main">fya-credit-app</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">FYA Créditos</string>
+    <string name="title_activity_main">FYA Créditos</string>
+    <string name="package_name">com.fyasocialcapital.creditapp</string>
+    <string name="custom_url_scheme">com.fyasocialcapital.creditapp</string>
 </resources>
