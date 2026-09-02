@@ -352,28 +352,32 @@
 
 @media (max-width: 600px) {
   .fya-container {
-    padding: 18px 16px 32px;
+    padding: 16px 16px 28px;
   }
 
   .brand-header {
     align-items: stretch;
     flex-direction: column;
-    gap: 18px;
-    margin-bottom: 28px;
-    padding: 2px 0 22px;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 0 0 20px;
   }
 
   .fya-logo {
-    width: 92px;
+    width: 80px;
   }
 
   .page-heading {
-    margin-left: 14px;
-    padding-left: 14px;
+    margin-left: 12px;
+    padding-left: 12px;
   }
 
   .page-heading h1 {
-    font-size: 30px;
+    font-size: 28px;
+  }
+
+  .page-heading p {
+    font-size: 14px;
   }
 
   .register-button {
@@ -381,17 +385,20 @@
   }
 
   .filters-section {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
-  .filter-card ion-card-content,
+  .filter-card ion-card-content {
+    padding: 14px;
+  }
+
   .credit-card ion-card-content {
     padding: 16px;
   }
 
   .filter-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .salesperson-field {
@@ -415,8 +422,9 @@
   }
 
   .credit-top {
+    align-items: stretch;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .credit-amount-group {
@@ -431,20 +439,11 @@
     gap: 16px;
   }
 
-  .credit-footer {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
 }
 
 @media (max-width: 360px) {
   .section-title-results {
     flex-direction: column;
     gap: 6px;
-  }
-
-  .filter-actions {
-    grid-template-columns: 1fr;
   }
 }
