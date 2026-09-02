@@ -1,20 +1,21 @@
 import {
   IonButton,
   IonContent,
-  IonHeader,
+  IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
   IonPage,
-  IonTitle,
-  IonToolbar,
+  IonSpinner,
   IonToast,
 } from "@ionic/react";
+import { arrowBackOutline } from "ionicons/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import fyaLogo from "../assets/fya-logo.png";
 import type { CreateCreditRequest } from "../models/CreateCreditRequest";
 import { createCredit } from "../services/creditService";
+
+import "./CreateCredit.css";
 
 const CreateCredit: React.FC = () => {
   const navigate = useNavigate();
@@ -66,108 +67,189 @@ const CreateCredit: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Registrar crédito</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonContent fullscreen className="create-credit-content">
+        <div className="create-credit-container">
+          <header className="create-credit-header">
+            <div className="create-credit-header-main">
+              <img
+                src={fyaLogo}
+                alt="FYA Social Capital"
+                className="create-credit-logo"
+              />
 
-      <IonContent className="ion-padding">
-        <IonItem>
-          <IonLabel position="stacked">Nombre del cliente</IonLabel>
-          <IonInput
-            value={form.clientName}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                clientName: event.detail.value ?? "",
-              })
-            }
-          />
-        </IonItem>
+              <div className="create-credit-heading">
+                <h1>Registrar crédito</h1>
+                <p>Completa la información del cliente y del crédito.</p>
+              </div>
+            </div>
 
-        <IonItem>
-          <IonLabel position="stacked">Cédula o ID</IonLabel>
-          <IonInput
-            value={form.clientDocument}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                clientDocument: event.detail.value ?? "",
-              })
-            }
-          />
-        </IonItem>
+            <button
+              type="button"
+              className="back-button"
+              onClick={() => navigate("/home")}
+            >
+              <IonIcon icon={arrowBackOutline} />
+              Volver a créditos
+            </button>
+          </header>
 
-        <IonItem>
-          <IonLabel position="stacked">Valor del crédito</IonLabel>
-          <IonInput
-            type="number"
-            value={form.amount}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                amount: Number(event.detail.value),
-              })
-            }
-          />
-        </IonItem>
+          <form
+            aria-busy={loading}
+            className="credit-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <section className="form-section">
+              <div className="form-section-title">
+                <h2>Datos del cliente</h2>
+              </div>
 
-        <IonItem>
-          <IonLabel position="stacked">Tasa de interés (%)</IonLabel>
-          <IonInput
-            type="number"
-            value={form.interestRate}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                interestRate: Number(event.detail.value),
-              })
-            }
-          />
-        </IonItem>
+              <div className="form-grid">
+                <IonInput
+                  className="form-input"
+                  fill="outline"
+                  label="Nombre del cliente"
+                  labelPlacement="stacked"
+                  placeholder="Nombre completo"
+                  value={form.clientName}
+                  onIonInput={(event) =>
+                    setForm({
+                      ...form,
+                      clientName: event.detail.value ?? "",
+                    })
+                  }
+                />
 
-        <IonItem>
-          <IonLabel position="stacked">Plazo en meses</IonLabel>
-          <IonInput
-            type="number"
-            value={form.termMonths}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                termMonths: Number(event.detail.value),
-              })
-            }
-          />
-        </IonItem>
+                <IonInput
+                  className="form-input"
+                  fill="outline"
+                  label="Cédula o ID"
+                  labelPlacement="stacked"
+                  placeholder="Número de identificación"
+                  value={form.clientDocument}
+                  onIonInput={(event) =>
+                    setForm({
+                      ...form,
+                      clientDocument: event.detail.value ?? "",
+                    })
+                  }
+                />
+              </div>
+            </section>
 
-        <IonItem>
-          <IonLabel position="stacked">Comercial</IonLabel>
-          <IonInput
-            value={form.salesperson}
-            onIonInput={(event) =>
-              setForm({
-                ...form,
-                salesperson: event.detail.value ?? "",
-              })
-            }
-          />
-        </IonItem>
+            <section className="form-section">
+              <div className="form-section-title">
+                <h2>Información del crédito</h2>
+              </div>
 
-        {error && (
-          <p style={{ marginTop: "16px" }}>
-            {error}
-          </p>
-        )}
+              <div className="form-grid">
+                <IonInput
+                  className="form-input amount-input"
+                  fill="outline"
+                  type="number"
+                  label="Valor del crédito"
+                  labelPlacement="stacked"
+                  placeholder="Ej. 5000000"
+                  value={form.amount || ""}
+                  onIonInput={(event) =>
+                    setForm({
+                      ...form,
+                      amount: Number(event.detail.value),
+                    })
+                  }
+                />
 
-        <IonButton
-          expand="block"
-          onClick={handleSubmit}
-          disabled={loading}
-          className="ion-margin-top"
-        >
-          {loading ? "Registrando..." : "Registrar crédito"}
-        </IonButton>
+                <IonInput
+                  className="form-input"
+                  fill="outline"
+                  type="number"
+                  label="Tasa de interés (%)"
+                  labelPlacement="stacked"
+                  placeholder="Ej. 2"
+                  value={form.interestRate || ""}
+                  onIonInput={(event) =>
+                    setForm({
+                      ...form,
+                      interestRate: Number(event.detail.value),
+                    })
+                  }
+                />
+
+                <IonInput
+                  className="form-input"
+                  fill="outline"
+                  type="number"
+                  label="Plazo en meses"
+                  labelPlacement="stacked"
+                  placeholder="Ej. 12"
+                  value={form.termMonths || ""}
+                  onIonInput={(event) =>
+                    setForm({
+                      ...form,
+                      termMonths: Number(event.detail.value),
+                    })
+                  }
+                />
+              </div>
+            </section>
+
+            <section className="form-section">
+              <div className="form-section-title">
+                <h2>Información comercial</h2>
+              </div>
+
+              <IonInput
+                className="form-input"
+                fill="outline"
+                label="Comercial que registra el crédito"
+                labelPlacement="stacked"
+                placeholder="Nombre del comercial"
+                value={form.salesperson}
+                onIonInput={(event) =>
+                  setForm({
+                    ...form,
+                    salesperson: event.detail.value ?? "",
+                  })
+                }
+              />
+            </section>
+
+            {error && (
+              <div className="form-error" role="alert">
+                {error}
+              </div>
+            )}
+
+            <div className="form-actions">
+              <IonButton
+                type="button"
+                fill="clear"
+                className="cancel-button"
+                disabled={loading}
+                onClick={() => navigate("/home")}
+              >
+                Cancelar
+              </IonButton>
+
+              <IonButton
+                type="submit"
+                className="submit-button"
+                disabled={loading}
+              >
+                {loading && (
+                  <IonSpinner
+                    slot="start"
+                    name="crescent"
+                  />
+                )}
+
+                {loading ? "Registrando..." : "Registrar crédito"}
+              </IonButton>
+            </div>
+          </form>
+        </div>
 
         <IonToast
           isOpen={showSuccess}

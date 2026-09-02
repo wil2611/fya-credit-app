@@ -1,0 +1,277 @@
+.create-credit-content {
+    --background: var(--fya-background);
+}
+
+.create-credit-container {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 24px 24px 48px;
+}
+
+.create-credit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 32px;
+    padding: 4px 0 24px;
+    border-bottom: 1px solid var(--fya-border);
+}
+
+.create-credit-header-main {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.create-credit-logo {
+    display: block;
+    width: 112px;
+    height: auto;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+
+    padding: 0 12px;
+    margin: 0;
+
+    border: 1px solid var(--fya-border);
+    border-radius: 8px;
+    background: var(--fya-surface);
+    color: var(--fya-text);
+
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        border-color 150ms ease,
+        background-color 150ms ease;
+}
+
+.back-button ion-icon {
+    font-size: 18px;
+    color: var(--fya-green-dark);
+}
+
+.back-button:hover {
+    border-color: #b9d8cc;
+    background: #eff9f5;
+    color: var(--fya-dark);
+}
+
+.back-button:focus-visible {
+    border-radius: 4px;
+    outline: 2px solid var(--fya-green-dark);
+    outline-offset: 3px;
+}
+
+.create-credit-heading {
+    min-width: 0;
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid var(--fya-border);
+}
+
+.create-credit-heading h1 {
+    margin: 0 0 6px;
+    color: var(--fya-dark);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.1;
+}
+
+.create-credit-heading p {
+    margin: 0;
+    color: var(--fya-text-secondary);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.credit-form {
+    padding: 28px;
+
+    border: 1px solid var(--fya-border);
+    border-radius: 12px;
+
+    background: var(--fya-surface);
+}
+
+.form-section + .form-section {
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid var(--fya-border);
+}
+
+.form-section-title {
+    margin-bottom: 14px;
+}
+
+.form-section-title h2 {
+    margin: 0;
+    color: var(--fya-dark);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.amount-input {
+    grid-column: 1 / -1;
+}
+
+.form-input {
+    --border-color: #ccd8d5;
+    --border-radius: 8px;
+    --highlight-color-focused: var(--fya-green-dark);
+    --highlight-color-valid: var(--fya-green-dark);
+    --padding-start: 14px;
+    --padding-end: 14px;
+
+    min-height: 58px;
+
+    color: var(--fya-text);
+    font-size: 14px;
+}
+
+.form-input::part(label) {
+    color: #677775;
+    font-size: 12px;
+}
+
+.form-error {
+    margin-top: 22px;
+    padding: 11px 13px;
+
+    border: 1px solid #efc8c8;
+    border-radius: 7px;
+
+    background: #fff7f7;
+    color: #a63d3d;
+
+    font-size: 13px;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+
+    margin-top: 28px;
+}
+
+.submit-button {
+    --background: var(--fya-green);
+    --background-hover: var(--fya-green-dark);
+    --background-activated: var(--fya-green-dark);
+    --color: var(--fya-dark);
+    --border-radius: 9px;
+    --box-shadow: none;
+    --padding-start: 18px;
+    --padding-end: 18px;
+
+    height: 44px;
+    margin: 0;
+
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cancel-button {
+    --color: var(--fya-text-secondary);
+
+    height: 44px;
+    margin: 0;
+
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.submit-button ion-spinner {
+    width: 17px;
+    height: 17px;
+}
+
+@media (max-width: 600px) {
+    .create-credit-container {
+        padding: 18px 16px 32px;
+    }
+
+    .create-credit-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 28px;
+        padding: 2px 0 22px;
+    }
+
+    .create-credit-logo {
+        width: 92px;
+    }
+
+    .create-credit-heading {
+        margin-left: 14px;
+        padding-left: 14px;
+    }
+
+    .back-button {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .create-credit-heading h1 {
+        font-size: 30px;
+    }
+
+    .credit-form {
+        padding: 16px;
+    }
+
+    .form-section-title h2 {
+        font-size: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .amount-input {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .submit-button,
+    .cancel-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .form-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .cancel-button {
+        order: 2;
+    }
+}

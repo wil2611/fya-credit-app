@@ -10,4 +10,14 @@ http://ionicframework.com/docs/theming/ */
     Helvetica,
     Arial,
     sans-serif;
+
+  /* Shared FYA palette */
+  --fya-green: #00cf86;
+  --fya-green-dark: #00aa70;
+  --fya-dark: #073335;
+  --fya-text: #243536;
+  --fya-text-secondary: #6f7f7f;
+  --fya-background: #f5f8f7;
+  --fya-surface: #ffffff;
+  --fya-border: #dce6e3;
 }
