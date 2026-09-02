@@ -75,9 +75,9 @@ CreateCreditRequest
 * Treat backend validation as the source of truth.
 * Display clear loading and error states.
 * Do not hardcode API URLs inside pages or services.
-* Read the backend URL from `<span>VITE_API_URL</span>`.
+* Read the backend URL from `VITE_API_URL`.
 * Do not commit real environment files or secrets.
-* Keep `<span>.env.*.example</span>` files updated when environment requirements change.
+* Keep `.env.*.example` files updated when environment requirements change.
 * Keep web and Android behavior compatible.
 * Run a build before completing significant changes.
 
@@ -135,7 +135,15 @@ Current deployed backend:
 https://fya-credit-api-production.up.railway.app
 ```
 
-Android production builds should use that HTTPS URL through `<span>.env.android</span>` or the corresponding build environment.
+### Production frontend
+
+Current deployed frontend:
+
+```text
+https://fya-credit-app.vercel.app
+```
+
+Android production builds should use that HTTPS URL through `.env.android` or the corresponding build environment.
 
 ## API
 
@@ -168,12 +176,12 @@ https://fya-credit-api-production.up.railway.app/swagger
 
 The credit registration form validates:
 
-* Client name.
-* Client document.
+* Client name (required, max 120 chars, valid name characters).
+* Client document (required, max 30 chars, numeric only).
 * Credit amount greater than zero.
 * Interest rate between 0 and 100.
-* Term in months greater than zero.
-* Salesperson.
+* Term in months between 1 and 600.
+* Salesperson (required, max 120 chars, valid name characters).
 
 Backend validation remains authoritative.
 
@@ -215,7 +223,7 @@ Open Android Studio with:
 npx cap open android
 ```
 
-Do not manually copy files from `<span>dist</span>` into the Android project. Capacitor should handle synchronization.
+Do not manually copy files from `dist` into the Android project. Capacitor should handle synchronization.
 
 ## Local Android development
 
@@ -266,6 +274,8 @@ npm run build:android
 npx cap sync android
 ```
 
+For Android release changes, verify the signed APK installs and works correctly on a physical device.
+
 For functional changes verify as appropriate:
 
 * Credit listing.
@@ -295,9 +305,5 @@ Currently implemented:
 * Physical Android device testing.
 * Production backend integration over HTTPS.
 * Successful operation without ADB reverse when using the deployed backend.
-
-Remaining before final delivery:
-
-* Run final regression tests after the latest UI changes.
-* Generate the final signed APK or AAB.
-* Perform final end-to-end validation of the distributable build.
+* Signed release APK generated and verified on physical device.
+* Web deployment on Vercel.

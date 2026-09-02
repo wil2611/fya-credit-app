@@ -50,7 +50,7 @@ Los archivos de entorno reales no se almacenan en el repositorio. Se incluyen ar
 
 ### Desarrollo web local
 
-Crear un archivo `<span>.env.development</span>` con:
+Crear un archivo `.env.development` con:
 
 ```
 VITE_API_URL=http://localhost:5136
@@ -58,7 +58,7 @@ VITE_API_URL=http://localhost:5136
 
 ### Android con backend local
 
-Para desarrollo con un dispositivo físico y ADB reverse se puede usar un archivo `<span>.env.android</span>` con:
+Para desarrollo con un dispositivo físico y ADB reverse se puede usar un archivo `.env.android` con:
 
 ```
 VITE_API_URL=http://localhost:5136
@@ -72,13 +72,21 @@ El backend de producción está disponible en:
 https://fya-credit-api-production.up.railway.app
 ```
 
-Para generar una versión Android que consuma el backend desplegado, `<span>.env.android</span>` debe contener:
+### Aplicación web desplegada
+
+La versión web está disponible en:
+
+```text
+https://fya-credit-app.vercel.app
+```
+
+Para generar una versión Android que consuma el backend desplegado, `.env.android` debe contener:
 
 ```
 VITE_API_URL=https://fya-credit-api-production.up.railway.app
 ```
 
-Los archivos `<span>.env*</span>` reales deben mantenerse fuera del repositorio.
+Los archivos `.env*` reales deben mantenerse fuera del repositorio.
 
 ## Ejecución local
 
@@ -106,7 +114,9 @@ El backend local debe estar ejecutándose y permitir este origen mediante CORS.
 * Ordenar créditos por fecha de registro.
 * Ordenar créditos por valor del crédito.
 * Seleccionar orden ascendente o descendente.
-* Validar los datos del formulario antes de enviarlos.
+* Validar campos obligatorios y formatos antes de enviar.
+* Mostrar mensajes de validación específicos por campo.
+* Validar los filtros de búsqueda.
 * Mostrar estados de carga y error.
 * Consumir la API REST del backend.
 * Ejecutar la aplicación en Android mediante Capacitor.
@@ -127,7 +137,7 @@ El frontend valida la información antes de realizar la solicitud.
 
 Cuando el registro es correcto:
 
-1. El frontend envía `<span>POST /api/credits</span>`.
+1. El frontend envía `POST /api/credits`.
 2. El backend almacena el crédito.
 3. El backend encola el envío de la notificación por correo en segundo plano.
 4. La aplicación vuelve al listado de créditos.
@@ -210,7 +220,7 @@ android/
 
 ## Desarrollo Android con ADB reverse
 
-Cuando se utiliza un backend local en `<span>http://localhost:5136</span>`, un dispositivo Android conectado por USB puede acceder a él mediante:
+Cuando se utiliza un backend local en `http://localhost:5136`, un dispositivo Android conectado por USB puede acceder a él mediante:
 
 ```
 adb reverse tcp:5136 tcp:5136
@@ -234,7 +244,7 @@ Desde Android Studio:
 Build → Generate App Bundles or APKs → Generate APKs
 ```
 
-También puede generarse desde la carpeta `<span>android</span>`:
+También puede generarse desde la carpeta `android`:
 
 ```
 ./gradlew assembleDebug
@@ -252,6 +262,22 @@ El APK de depuración se genera normalmente en:
 android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
+## APK de entrega
+
+Se generó una versión `release` firmada de la aplicación Android y se verificó su instalación y funcionamiento en un dispositivo físico.
+
+La aplicación utiliza el identificador:
+
+```text
+com.fyasocialcapital.creditapp
+```
+
+Nombre de la aplicación:
+
+```text
+FYA Créditos
+```
+
 ## Verificación realizada
 
 Durante el desarrollo se verificó en un dispositivo Android físico:
@@ -261,13 +287,17 @@ Durante el desarrollo se verificó en un dispositivo Android físico:
 * Filtros.
 * Ordenamiento.
 * Consumo del backend desplegado mediante HTTPS.
-* Funcionamiento sin `<span>adb reverse</span>` y sin depender del backend local.
+* Funcionamiento sin `adb reverse` y sin depender del backend local.
 
 ## Estado del proyecto
 
-Actualmente están implementadas las funcionalidades principales requeridas para registro, consulta, filtros y ordenamiento de créditos, además de la integración Android y el consumo del backend desplegado.
+Las funcionalidades principales de la prueba técnica se encuentran implementadas y probadas:
 
-Antes de la entrega final queda pendiente:
-
-* Ejecutar una última regresión funcional después de los cambios visuales.
-* Generar y validar el APK o AAB final firmado.
+* Registro de créditos.
+* Consulta, filtros y ordenamiento.
+* Validaciones de formulario y filtros.
+* Integración con el backend desplegado.
+* Versión web desplegada en Vercel.
+* Aplicación Android mediante Capacitor.
+* APK release firmado e instalado en un dispositivo físico.
+* Consumo del backend mediante HTTPS sin depender de ADB reverse.
