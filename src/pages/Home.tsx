@@ -27,6 +27,15 @@ import { getCredits } from "../services/creditService";
 
 import "./Home.css";
 
+type FilterErrors = {
+  clientName?: string;
+  clientDocument?: string;
+  salesperson?: string;
+};
+
+const nameRegex = /^[\p{L}.' -]+$/u;
+const documentRegex = /^\d+$/;
+
 const Home: React.FC = () => {
   const [credits, setCredits] = useState<Credit[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +44,7 @@ const Home: React.FC = () => {
   const [clientName, setClientName] = useState("");
   const [clientDocument, setClientDocument] = useState("");
   const [salesperson, setSalesperson] = useState("");
+  const [filterErrors, setFilterErrors] = useState<FilterErrors>({});
 
   const [sortBy, setSortBy] =
     useState<"amount" | "createdAt">("createdAt");
@@ -63,11 +73,57 @@ const Home: React.FC = () => {
     loadCredits();
   }, []);
 
+  const validateFilters = () => {
+    const errors: FilterErrors = {};
+
+    const normalizedClientName = clientName.trim();
+    const normalizedDocument = clientDocument.trim();
+    const normalizedSalesperson = salesperson.trim();
+
+    if (normalizedClientName) {
+      if (normalizedClientName.length > 120) {
+        errors.clientName =
+          "El nombre no puede superar 120 caracteres.";
+      } else if (!nameRegex.test(normalizedClientName)) {
+        errors.clientName =
+          "El nombre contiene caracteres no válidos.";
+      }
+    }
+
+    if (normalizedDocument) {
+      if (normalizedDocument.length > 30) {
+        errors.clientDocument =
+          "El documento no puede superar 30 caracteres.";
+      } else if (!documentRegex.test(normalizedDocument)) {
+        errors.clientDocument =
+          "El documento debe contener únicamente números.";
+      }
+    }
+
+    if (normalizedSalesperson) {
+      if (normalizedSalesperson.length > 120) {
+        errors.salesperson =
+          "El nombre del comercial no puede superar 120 caracteres.";
+      } else if (!nameRegex.test(normalizedSalesperson)) {
+        errors.salesperson =
+          "El nombre del comercial contiene caracteres no válidos.";
+      }
+    }
+
+    setFilterErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSearch = () => {
+    if (!validateFilters()) {
+      return;
+    }
+
     loadCredits({
-      clientName,
-      clientDocument,
-      salesperson,
+      clientName: clientName.trim(),
+      clientDocument: clientDocument.trim(),
+      salesperson: salesperson.trim(),
       sortBy,
       sortOrder,
     });
@@ -79,6 +135,7 @@ const Home: React.FC = () => {
     setSalesperson("");
     setSortBy("createdAt");
     setSortOrder("desc");
+    setFilterErrors({});
 
     loadCredits();
   };
@@ -139,41 +196,86 @@ const Home: React.FC = () => {
             <IonCard className="filter-card">
               <IonCardContent>
                 <div className="filter-grid">
-                  <IonInput
-                    className="fya-input"
-                    fill="outline"
-                    label="Nombre del cliente"
-                    labelPlacement="stacked"
-                    placeholder="Ej. Pepito Pérez"
-                    value={clientName}
-                    onIonInput={(event) =>
-                      setClientName(event.detail.value ?? "")
-                    }
-                  />
+                  <div className="filter-field">
+                    <IonInput
+                      className="fya-input"
+                      fill="outline"
+                      label="Nombre del cliente"
+                      labelPlacement="stacked"
+                      placeholder="Ej. Pepito Pérez"
+                      maxlength={120}
+                      value={clientName}
+                      onIonInput={(event) => {
+                        setClientName(event.detail.value ?? "");
 
-                  <IonInput
-                    className="fya-input"
-                    fill="outline"
-                    label="Cédula o ID"
-                    labelPlacement="stacked"
-                    placeholder="Número de identificación"
-                    value={clientDocument}
-                    onIonInput={(event) =>
-                      setClientDocument(event.detail.value ?? "")
-                    }
-                  />
+                        setFilterErrors({
+                          ...filterErrors,
+                          clientName: undefined,
+                        });
+                      }}
+                    />
 
-                  <IonInput
-                    className="fya-input salesperson-field"
-                    fill="outline"
-                    label="Comercial"
-                    labelPlacement="stacked"
-                    placeholder="Nombre del comercial"
-                    value={salesperson}
-                    onIonInput={(event) =>
-                      setSalesperson(event.detail.value ?? "")
-                    }
-                  />
+                    {filterErrors.clientName && (
+                      <span className="filter-error">
+                        {filterErrors.clientName}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="filter-field">
+                    <IonInput
+                      className="fya-input"
+                      fill="outline"
+                      label="Cédula o ID"
+                      labelPlacement="stacked"
+                      placeholder="Número de identificación"
+                      inputmode="numeric"
+                      maxlength={30}
+                      value={clientDocument}
+                      onIonInput={(event) => {
+                        const value = event.detail.value ?? "";
+
+                        setClientDocument(value);
+
+                        setFilterErrors({
+                          ...filterErrors,
+                          clientDocument: undefined,
+                        });
+                      }}
+                    />
+
+                    {filterErrors.clientDocument && (
+                      <span className="filter-error">
+                        {filterErrors.clientDocument}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="filter-field salesperson-field">
+                    <IonInput
+                      className="fya-input"
+                      fill="outline"
+                      label="Comercial"
+                      labelPlacement="stacked"
+                      placeholder="Nombre del comercial"
+                      maxlength={120}
+                      value={salesperson}
+                      onIonInput={(event) => {
+                        setSalesperson(event.detail.value ?? "");
+
+                        setFilterErrors({
+                          ...filterErrors,
+                          salesperson: undefined,
+                        });
+                      }}
+                    />
+
+                    {filterErrors.salesperson && (
+                      <span className="filter-error">
+                        {filterErrors.salesperson}
+                      </span>
+                    )}
+                  </div>
 
                   <IonSelect
                     className="fya-input"
