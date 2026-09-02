@@ -4,25 +4,24 @@
 
 This repository contains the frontend application for the FYA credit management technical assessment.
 
-The application is built with Ionic React and communicates with the FYA Credit API.
-
-Capacitor is used to generate and run the Android application.
+The application is built with Ionic React and TypeScript, uses Capacitor for Android, and communicates with the FYA Credit API through REST endpoints.
 
 ## Technology stack
 
-- Ionic
-- React
-- TypeScript
-- Vite
-- Capacitor
-- Android
+* Ionic
+* React
+* TypeScript
+* Vite
+* Capacitor
+* Android
 
 ## Project structure
 
-Application code is organized using directories such as:
+Main application code is organized under:
 
-```text
+```
 src/
+├── assets/
 ├── models/
 ├── pages/
 └── services/
@@ -30,95 +29,126 @@ src/
 
 The native Android project is located in:
 
-```text
+```
 android/
 ```
 
-Pages represent complete application screens. Current main pages include:
+Main pages:
 
-```text
+```
 Home
 CreateCredit
 ```
 
 ## Service layer and models
 
-API communication should remain separated from UI components.
+API communication must remain separated from UI components.
 
 Credit API operations are handled through:
 
-```text
+```
 src/services/creditService.ts
 ```
 
-Pages should use the service layer instead of calling API URLs directly.
+Pages must use the service layer instead of calling backend URLs directly.
 
 TypeScript interfaces and request models belong in:
 
-```text
+```
 src/models/
 ```
 
 Current models include:
 
-```text
+```
 Credit
 CreateCreditRequest
 ```
 
 ## Development guidelines
 
-- Keep components simple and readable.
-- Use TypeScript types for API data.
-- Keep API communication separated from UI components.
-- Avoid duplicating API request logic.
-- Validate form data before sending requests.
-- Backend validation remains the source of truth.
-- Display clear loading and error states.
-- Do not hardcode production API URLs inside components or services.
-- Read the backend URL from `VITE_API_URL`.
-- Do not commit environment files containing local or sensitive configuration.
-- Keep example environment files updated.
-- Keep the application usable on mobile devices.
-- Keep Android and web configurations compatible.
-- Run a build before completing significant changes.
+* Keep components simple and readable.
+* Use TypeScript types for API data.
+* Keep API communication separated from UI components.
+* Avoid duplicating API request logic.
+* Validate form data before sending requests.
+* Treat backend validation as the source of truth.
+* Display clear loading and error states.
+* Do not hardcode API URLs inside pages or services.
+* Read the backend URL from `<span>VITE_API_URL</span>`.
+* Do not commit real environment files or secrets.
+* Keep `<span>.env.*.example</span>` files updated when environment requirements change.
+* Keep web and Android behavior compatible.
+* Run a build before completing significant changes.
+
+## UI guidelines
+
+The interface should remain simple and operational rather than looking like a generic dashboard template.
+
+* Use the FYA visual identity consistently.
+* Prefer clear hierarchy and practical spacing over decorative elements.
+* Avoid unnecessary KPI cards, pills, large hero sections, excessive shadows, or decorative icons.
+* Use cards only when they improve grouping or readability.
+* Keep credit information easy to scan on desktop and mobile.
+* Preserve responsive behavior when changing layout or styles.
+* Do not change working business logic only to support visual adjustments.
+
+Current shared visual variables use the FYA palette defined in the frontend styles.
 
 ## Environment configuration
 
 The frontend reads the backend URL from:
 
-```text
+```
 VITE_API_URL
 ```
 
-Real environment files should not be committed. Example files may be committed:
+Real environment files must not be committed.
 
-```text
+Example files may be committed:
+
+```
 .env.development.example
 .env.android.example
 ```
 
-Development environments can create local copies such as:
+Local files may include:
 
-```text
+```
 .env.development
 .env.android
 ```
 
-## API
+### Local backend
 
-The frontend communicates with the FYA Credit API.
+Typical local value:
+
+```
+VITE_API_URL=http://localhost:5136
+```
+
+### Production backend
+
+Current deployed backend:
+
+```
+https://fya-credit-api-production.up.railway.app
+```
+
+Android production builds should use that HTTPS URL through `<span>.env.android</span>` or the corresponding build environment.
+
+## API
 
 Main endpoints:
 
-```http
+```
 GET /api/credits
 POST /api/credits
 ```
 
 The GET endpoint supports:
 
-```text
+```
 clientName
 clientDocument
 salesperson
@@ -126,76 +156,98 @@ sortBy
 sortOrder
 ```
 
-Do not implement duplicated filtering logic in the frontend when the backend already provides the required filtering and sorting.
+Do not duplicate backend filtering or sorting logic in the frontend.
+
+Backend Swagger is available at:
+
+```
+https://fya-credit-api-production.up.railway.app/swagger
+```
 
 ## Validation
 
-Forms must validate required fields before submitting requests.
-
 The credit registration form validates:
 
-- Client name.
-- Client document.
-- Credit amount.
-- Interest rate.
-- Term in months.
-- Salesperson.
+* Client name.
+* Client document.
+* Credit amount greater than zero.
+* Interest rate between 0 and 100.
+* Term in months greater than zero.
+* Salesperson.
 
-Backend validation must still be considered authoritative.
+Backend validation remains authoritative.
+
+## Credit creation flow
+
+The frontend should only submit the credit request and handle the result.
+
+Expected flow:
+
+```
+CreateCredit page
+    ↓
+creditService.createCredit
+    ↓
+POST /api/credits
+    ↓
+backend persists credit and handles background email notification
+```
+
+Do not add email provider logic to the frontend.
 
 ## Android workflow
 
-Before synchronizing Android, build the frontend using:
+Before synchronizing Android:
 
-```bash
+```
 npm run build:android
 ```
 
-Then synchronize Capacitor:
+Then:
 
-```bash
+```
 npx cap sync android
 ```
 
-Open the native project with:
+Open Android Studio with:
 
-```bash
+```
 npx cap open android
 ```
 
-Do not manually copy files from `dist` into the Android project. Capacitor synchronization should handle web asset updates.
+Do not manually copy files from `<span>dist</span>` into the Android project. Capacitor should handle synchronization.
 
-### Local development with ADB reverse
+## Local Android development
 
-During local development with a physical Android device connected through USB, ADB reverse may be used:
+For a physical Android device connected over USB, a local backend can be exposed with:
 
-```bash
+```
 adb reverse tcp:5136 tcp:5136
 ```
 
-This allows the Android application to access a backend running on the developer machine using:
+This allows the device to reach:
 
-```text
+```
 http://localhost:5136
 ```
 
-ADB reverse is a development-only solution and must not be treated as the production backend configuration.
+ADB reverse is development-only and must not be required by distributable builds.
 
-For a distributable APK or AAB, use a publicly accessible backend URL, preferably HTTPS.
+Production Android builds should communicate directly with the deployed HTTPS backend.
 
-### Gradle and Java
+## Gradle and Java
 
-Gradle should use a compatible Java version. The current development environment uses Java 21.
+The current Android development environment uses Java 21.
 
-Before debugging Gradle issues, verify:
+Verify Java with:
 
-```bash
+```
 java -version
 ```
 
-And from the Android directory:
+From the Android directory verify Gradle with:
 
-```powershell
+```
 .\gradlew.bat -version
 ```
 
@@ -203,46 +255,49 @@ And from the Android directory:
 
 Run:
 
-```bash
+```
 npm run build
 ```
 
 For Android-related changes also run:
 
-```bash
+```
 npm run build:android
 npx cap sync android
 ```
 
-When appropriate, verify the application on an Android device.
+For functional changes verify as appropriate:
 
-For API-related changes verify:
-
-- Credit listing.
-- Credit creation.
-- Filters.
-- Sorting.
-- Error handling.
+* Credit listing.
+* Credit creation.
+* Filters.
+* Sorting.
+* Form validation.
+* Error handling.
+* Navigation between Home and CreateCredit.
+* Mobile layout.
 
 ## Current functional scope
 
 Currently implemented:
 
-- Ionic React project.
-- Capacitor configuration.
-- Credit listing interface.
-- Credit registration form.
-- Credit API integration.
-- Frontend form validation.
-- Credit filters.
-- Credit sorting.
-- Loading and error states.
-- Android platform integration.
-- Android build.
-- Execution and validation on a physical Android device.
+* Ionic React application.
+* Credit listing.
+* Credit registration.
+* Frontend validation.
+* API service layer.
+* Filters by client name, document, and salesperson.
+* Sorting by date and credit amount.
+* Loading and error states.
+* Responsive FYA-styled UI.
+* Capacitor Android integration.
+* Android build configuration.
+* Physical Android device testing.
+* Production backend integration over HTTPS.
+* Successful operation without ADB reverse when using the deployed backend.
 
-Still to be completed before final delivery:
+Remaining before final delivery:
 
-- Configure the production/public backend URL.
-- Generate the final APK or AAB using the deployed backend.
-- Perform final end-to-end verification.
+* Run final regression tests after the latest UI changes.
+* Generate the final signed APK or AAB.
+* Perform final end-to-end validation of the distributable build.
