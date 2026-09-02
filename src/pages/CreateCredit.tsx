@@ -68,6 +68,12 @@ const CreateCredit: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen className="create-credit-content">
+        <div
+          slot="fixed"
+          className="status-bar-background"
+          aria-hidden="true"
+        />
+
         <div className="create-credit-container">
           <header className="create-credit-header">
             <div className="create-credit-header-main">

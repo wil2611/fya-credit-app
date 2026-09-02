@@ -6,7 +6,11 @@
     width: 100%;
     max-width: 1040px;
     margin: 0 auto;
-    padding: 24px 24px 48px;
+    padding:
+        calc(24px + var(--ion-safe-area-top, 0px))
+        calc(24px + var(--ion-safe-area-right, 0px))
+        calc(48px + var(--ion-safe-area-bottom, 0px))
+        calc(24px + var(--ion-safe-area-left, 0px));
 }
 
 .create-credit-header {
@@ -205,7 +209,11 @@
 
 @media (max-width: 600px) {
     .create-credit-container {
-        padding: 16px 16px 28px;
+        padding:
+            calc(16px + var(--ion-safe-area-top, 0px))
+            calc(16px + var(--ion-safe-area-right, 0px))
+            calc(28px + var(--ion-safe-area-bottom, 0px))
+            calc(16px + var(--ion-safe-area-left, 0px));
     }
 
     .create-credit-header {

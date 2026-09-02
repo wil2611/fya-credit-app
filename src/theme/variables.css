@@ -21,3 +21,21 @@ http://ionicframework.com/docs/theming/ */
   --fya-surface: #ffffff;
   --fya-border: #dce6e3;
 }
+
+.status-bar-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+
+  height: var(--ion-safe-area-top, 0px);
+  background: var(--fya-background);
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-bar-background {
+    background: var(--fya-dark);
+  }
+}

@@ -100,6 +100,12 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen className="fya-content">
+        <div
+          slot="fixed"
+          className="status-bar-background"
+          aria-hidden="true"
+        />
+
         <div className="fya-container">
           <header className="brand-header">
             <div className="header-main">
